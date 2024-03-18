@@ -42,7 +42,7 @@ class Helper {
         }
     }
 
-     inline fun<reified T: MenuItem?>  showMenu(
+     inline fun<T: MenuItem?>  showMenu(
         menuName: String?,
         msgCreate: String? = null,
         msgQuit: String?,
@@ -58,15 +58,24 @@ class Helper {
             // пункты меню
             println("0. $msgCreate")
 
-            for (item in list!!){
-                println("${item!!.index}. ${item.name}")
+            if(list != null) {
+                for (item in list){
+                    println("${item!!.index}. ${item.name}")
+                }
             }
-            println("${list!!.size + 1}. $msgQuit")
+            val menuLenght = list?.size ?: 0
+            println("${menuLenght + 1}. $msgQuit")
 
             // считываем ответ пользователя и проверяем что это число
             var notesAnswer: Int = readInt(scanner)
+            // пользователь ввел валидное число?
+            while (notesAnswer < 0 || notesAnswer > menuLenght + 1) {
+                println("Ошибка: введите число в пределах пунктов списка")
+                notesAnswer = readInt(scanner)
+            }
 
             // исходя из полученного ответа, запускаем определенное действие
+            if(list == null) return
             if(notesAnswer == 0) {
                 onActionCreate.invoke()
                 if (list[0] is Archive) {

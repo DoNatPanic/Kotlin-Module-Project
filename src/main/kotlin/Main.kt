@@ -1,17 +1,17 @@
 import java.util.Scanner
 
-abstract class MenuItem {
-    abstract val index: Int
-    abstract val name: String
+interface MenuItem {
+    val index: Int
+    val name: String
 }
-class Archive(override val index: Int, override val name: String, val notes: MutableList<Note>?): MenuItem()
+class Archive(override val index: Int, override val name: String, val notes: MutableList<Note>?): MenuItem
 
-class Note(override val index: Int, override val name: String, var content: String): MenuItem()
+class Note(override val index: Int, override val name: String, var content: String): MenuItem
 
 fun main(args: Array<String>) {
 
     // пустой список архивов
-    var archives: MutableList<Archive> = mutableListOf()
+    val archives: MutableList<Archive> = mutableListOf()
 
 val helperClass = Helper()
     /* Программа эмулирует приложение с разным уровнем вложенности экранов.
@@ -29,12 +29,12 @@ val helperClass = Helper()
     // лямбда-выражение, которое создает заметку
     val onCreateNote: () -> Unit = {
         var noteNameAnswer = ""
-        while (noteNameAnswer == ""){
+        while (noteNameAnswer.isEmpty()){
             println("Введите название заметки:")
             noteNameAnswer = Scanner(System.`in`).nextLine()
         }
         var noteContentAnswer = ""
-        while (noteContentAnswer == ""){
+        while (noteContentAnswer.isEmpty()){
             println("Введите содержание заметки:")
             noteContentAnswer = Scanner(System.`in`).nextLine()
         }
